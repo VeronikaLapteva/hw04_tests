@@ -2,14 +2,11 @@ import shutil
 import tempfile
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from ..forms import PostForm
-from ..models import Group, Post
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
@@ -79,6 +76,7 @@ class PostFormTests(TestCase):
             'posts:post_detail', kwargs={'post_id': self.post.id}))
         self.assertTrue(
             Post.objects.filter(
+                text='Тестовый текст2',
                 group=self.group.id,
                 author=self.user,
             ).exists())
